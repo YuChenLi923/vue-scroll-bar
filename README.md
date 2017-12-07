@@ -5,14 +5,13 @@
 
 > a simple custom scrollbar vue component
 
-![show](show.gif)
+![show-y](show-y.gif)
 
+![show-x](show-x.gif)
 ## Install
 
 ```
-
 npm i vue-scroll-bar --save
-
 ```
 
 ## Usage
@@ -59,6 +58,15 @@ export default {
 | Props               | Type      | Default                                         | Description  |
 | --------------------|:----------| ------------------------------------------------|--------------|
 | scrollTrackStyle    |  Object     | {} | the style of scroll track
+| scrollTrackYStyle    |  Object     | scrollTrackStyle | the style of scroll track  in the direction of Y axis
+| scrollTrackXStyle    |  Object     | scrollTrackStyle | the style of scroll track  in the direction of X axis
 | scrollBarStyle    |  Object     | {} | the style of scroll bar
-| barMinHeight | Number | 20 |  the min height of scroll bar
+| scrollBarYStyle    |  Object     | scrollBarStyle | the style of scroll bar in the direction of Y axis
+| scrollBarXStyle    |  Object     | scrollBarStyle | the style of scroll bar in the direction of X axis
+| barYMinHeight | Number | 20 |  the min height of scroll bar in the direction of Y axis
+| barXMinWidth | Number | 20 |  the min width of scroll bar in the direction of X axis
 | scrollDis | Number | 130| The distance of each scroll
+| scrollYDis | Number | scrollDis| The distance of each scroll in the direction of Y axis
+| scrollXDis | Number | scrollDis| The distance of each scroll in the direction of X axis
+| overflow | String | 'auto'| 'auto', 'hidden', 'hidden-x', 'hidden-y'
+

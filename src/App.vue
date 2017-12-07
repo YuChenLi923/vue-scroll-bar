@@ -1,6 +1,16 @@
 <template>
   <div id="app">
-    <scroll-bar class="warp">
+    <scroll-bar class="warp" overflow="hidden-x">
+      <div class="test">
+        <p>select1</p>
+        <p>select2</p>
+        <p>select3</p>
+        <p>select4</p>
+        <p>select5</p>
+        <p>select6</p>
+      </div>
+    </scroll-bar>
+    <scroll-bar class="warp" overflow="hidden-y">
       <div class="test">
         <p>select1</p>
         <p>select2</p>
@@ -51,5 +61,9 @@ p:hover {
   margin: auto;
   border-radius: 2px;
   box-shadow: 0 1px 10px 0 #d0d6e2;
+  margin-top: 20px;
+}
+.test{
+  width: 400px;
 }
 </style>
