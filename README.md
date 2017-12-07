@@ -1,5 +1,5 @@
 # vue-scroll-bar
-[![Build Status](https://travis-ci.org/YuChenLi923/vue-scroll-bar.svg?branch=master)](https://travis-ci.org/YuChenLi923/extend-assign)
+[![Build Status](https://travis-ci.org/YuChenLi923/vue-scroll-bar.svg?branch=master)](https://travis-ci.org/YuChenLi923/vue-scroll-bar)
 ![NPM version](https://badge.fury.io/js/vue-scroll-bar.svg)
 ![Downloads](http://img.shields.io/npm/dm/vue-scroll-bar.svg?style=flat)
 
