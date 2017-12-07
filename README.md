@@ -1,4 +1,7 @@
 # vue-scroll-bar
+[![Build Status](https://travis-ci.org/YuChenLi923/vue-scroll-bar.svg?branch=master)](https://travis-ci.org/YuChenLi923/extend-assign)
+![NPM version](https://badge.fury.io/js/vue-scroll-bar.svg)
+![Downloads](http://img.shields.io/npm/dm/vue-scroll-bar.svg?style=flat)
 
 > a simple custom scrollbar vue component
 
@@ -19,12 +22,12 @@ npm i vue-scroll-bar --save
 <template>
    <scroll-bar class="warp" :scrollTrackStyle="scrollTrackStyle" :scrollBarStyle="scrollBarStyle">
       <div class="test">
-        <p>xxxxxxxxxx</p>
-        <p>xxxxxxxxxx</p>
-        <p>xxxxxxxxxx</p>
-        <p>xxxxxxxxxx</p>
-        <p>xxxxxxxxxx</p>
-        <p>xxxxxxxxxx</p>
+         <p>select1</p>
+         <p>select2</p>
+         <p>select3</p>
+         <p>select4</p>
+         <p>select5</p>
+         <p>select6</p>
       </div>
    </scroll-bar>
 </template>
@@ -43,6 +46,12 @@ export default {
       };
     }
 };
+<style>
+.warp{
+  height: 80px;
+  overflow: hidden;
+}
+</style>
 ```
 
 ## Props

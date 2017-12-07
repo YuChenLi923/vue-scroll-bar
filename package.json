@@ -1,20 +1,28 @@
 {
   "name": "vue-scroll-bar",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "a simple custom scrollbar vue component",
   "author": "YuChenLi<liyc_code@163.com>",
-  "private": true,
+  "license": "MIT",
+  "main": "src/index.vue",
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
-    "start": "npm run dev",
-    "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
-    "test": "npm run unit",
-    "lint": "eslint --ext .js,.vue src test/unit/specs",
     "build": "node build/build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YuChenLi923/extend-assign.git"
   },
   "dependencies": {
     "vue": "^2.5.2"
   },
+  "keywords": [
+    "vue-scroll-bar",
+    "vue-scroll",
+    "scroll-bar",
+    "scroll",
+    "yc"
+  ],
   "devDependencies": {
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.22.1",
@@ -84,5 +92,9 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "bugs": {
+    "url": "https://github.com/YuChenLi923/extend-assign/issues",
+    "email": "liyc_code@163.com"
+  }
 }
