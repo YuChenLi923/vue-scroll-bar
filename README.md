@@ -69,4 +69,4 @@ export default {
 | scrollYDis | Number | scrollDis| The distance of each scroll in the direction of Y axis
 | scrollXDis | Number | scrollDis| The distance of each scroll in the direction of X axis
 | overflow | String | 'auto'| 'auto', 'hidden', 'hidden-x', 'hidden-y'
-
+| watchValue | Any | `null` | For reactive solutions - when content expands, bar would be refreshed

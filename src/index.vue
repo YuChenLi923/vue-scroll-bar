@@ -78,6 +78,9 @@
       },
       overflow: {
         default: 'none'
+      },
+      watchValue: {
+        default: null
       }
     },
     data () {
@@ -102,6 +105,20 @@
         moveY: false,
         bottomMove: false,
         animation: true
+      }
+    },
+    watch: {
+      watchValue () {
+        if (this.watchValue) {
+          this.$nextTick(() => {
+            this.recalculate();
+            this.$nextTick(() => {
+              if (this.showScrollY || this.showScrollX) {
+                this.bindEvents();
+              }
+            });
+          });
+        }
       }
     },
     methods: {
@@ -213,47 +230,54 @@
         this.moveY = true;
         this.startY = e.clientY;
         this.startTop = this.top;
+      },
+      recalculate () {
+        let {scrollWindow, scrollContent} = this.$refs;
+        scrollContent = scrollContent.firstElementChild || scrollContent;
+        const scrollWinH = scrollWindow.offsetHeight;
+        const scrollWinW = scrollWindow.offsetWidth;
+        const contentH = scrollContent.offsetHeight;
+        const contentW = scrollContent.offsetWidth;
+        const scrollH = contentH - scrollWinH;
+        const scrollW = contentW - scrollWinW;
+        const minHeight = this.barXMinHeight;
+        const minWidth = this.barYMinWidth;
+        const overflow = this.overflow;
+        this.scrollH = scrollH;
+        this.scrollW = scrollW;
+        this.contentW = contentW;
+        this.contentH = contentH;
+        this.scrollWinH = scrollWinH;
+        this.scrollWinW = scrollWinW;
+        this.showScrollY = scrollH > 0 && (overflow !== 'hidden-y' && overflow !== 'hidden');
+        this.showScrollX = scrollW > 0 && (overflow !== 'hidden-x' && overflow !== 'hidden');
+        this.width = scrollWinW / ((scrollW / scrollWinW) + 1) < minWidth ? minWidth : scrollWinW / ((scrollW / scrollWinW) + 1);
+        this.height = scrollWinH / ((scrollH / scrollWinH) + 1) < minHeight ? minHeight : scrollWinH / ((scrollH / scrollWinH) + 1);
+      },
+      bindEvents () {
+        let { scrollWindow } = this.$refs;
+        window.addEventListener('mouseup', () => {
+          this.moveY = false;
+          this.moveX = false;
+        });
+        window.addEventListener('mousemove', (e) => {
+          if (this.moveY) {
+            this.moveToY(e.clientY - this.startY);
+          }
+          if (this.moveX) {
+            this.moveToX(e.clientX - this.startX);
+          }
+        });
+        if (isFireFox) {
+          this.showScrollY && scrollWindow.addEventListener('DOMMouseScroll', this.scroll, false);
+        } else {
+          this.showScrollY && scrollWindow.addEventListener('mousewheel', this.scroll, false, { passive: false });
+        }
       }
     },
     mounted () {
-      let {scrollWindow, scrollContent} = this.$refs;
-      scrollContent = scrollContent.firstElementChild || scrollContent;
-      const scrollWinH = scrollWindow.offsetHeight;
-      const scrollWinW = scrollWindow.offsetWidth;
-      const contentH = scrollContent.offsetHeight;
-      const contentW = scrollContent.offsetWidth;
-      const scrollH = contentH - scrollWinH;
-      const scrollW = contentW - scrollWinW;
-      const minHeight = this.barXMinHeight;
-      const minWidth = this.barYMinWidth;
-      const overflow = this.overflow;
-      this.scrollH = scrollH;
-      this.scrollW = scrollW;
-      this.contentW = contentW;
-      this.contentH = contentH;
-      this.scrollWinH = scrollWinH;
-      this.scrollWinW = scrollWinW;
-      this.showScrollY = scrollH > 0 && (overflow !== 'hidden-y' && overflow !== 'hidden');
-      this.showScrollX = scrollW > 0 && (overflow !== 'hidden-x' && overflow !== 'hidden');
-      this.width = scrollWinW / ((scrollW / scrollWinW) + 1) < minWidth ? minWidth : scrollWinW / ((scrollW / scrollWinW) + 1);
-      this.height = scrollWinH / ((scrollH / scrollWinH) + 1) < minHeight ? minHeight : scrollWinH / ((scrollH / scrollWinH) + 1);
-      window.addEventListener('mouseup', () => {
-        this.moveY = false;
-        this.moveX = false;
-      });
-      window.addEventListener('mousemove', (e) => {
-        if (this.moveY) {
-          this.moveToY(e.clientY - this.startY);
-        }
-        if (this.moveX) {
-          this.moveToX(e.clientX - this.startX);
-        }
-      });
-      if (isFireFox) {
-        this.showScrollY && scrollWindow.addEventListener('DOMMouseScroll', this.scroll, false);
-      } else {
-        this.showScrollY && scrollWindow.addEventListener('mousewheel', this.scroll, false, { passive: false });
-      }
+      this.recalculate();
+      this.bindEvents();
     },
     destroy () {
       this.scrollWindow.removeListener('DOMMouseScroll');
