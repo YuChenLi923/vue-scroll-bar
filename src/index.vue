@@ -1,45 +1,54 @@
 <template>
-  <div ref="scrollWindow" class="vue-scroll-window" >
+  <div ref="scrollWindow" class="vue-scroll-window"
+       @touchstart.stop = "startMove"
+  >
     <div class="vue-scroll-body"
          :class="{'vue-scroll-animation': animation}"
          ref="scrollContent"
-         :style="{marginTop: scrollTop + 'px', marginLeft: scrollLeft + 'px'}">
+         :style="{marginTop: scrollTop + 'px',  marginLeft: scrollLeft + 'px'}">
       <slot/>
     </div>
-    <div class="vue-scroll-track left-track"
-         @click.stop="(e) => {clickTo(e, 'y');}"
-         v-if="showScrollY"
-         :style="[scrollTrackYStyle || scrollTrackStyle]"
-    >
-      <button class="vue-scroll-bar left-bar"
-              :class="{'vue-scroll-animation': !moveY}"
-              :style="[{
-                marginTop: top + 'px',
-                height: (showScrollX ? height - 5: height) + 'px'
-              }, scrollBarYStyle || scrollBarStyle]"
-              @mousedown.stop="startMoveY"
-      ></button>
+    <transition name="vue-scroll">
+    <div  class="vue-scroll-track left-track"
+          @click.stop="(e) => {clickTo(e, 'y');}"
+          v-show="showScrollY"
+          :style="[scrollTrackYStyle || scrollTrackStyle]"
+      >
+        <button class="vue-scroll-bar left-bar"
+                :class="{'vue-scroll-animation': !moveY}"
+                :style="[{
+                  marginTop: top + 'px',
+                  height: (showScrollX ? height - 5: height) + 'px'
+                }, scrollBarYStyle || scrollBarStyle]"
+                @mousedown.stop="startMoveY"
+        ></button>
+      </div>
+    </transition>
+    <transition name="vue-scroll">
+      <div class="vue-scroll-track bottom-track"
+           @click.stop="(e) => {clickTo(e, 'x');}"
+           v-show="showScrollX"
+           :style="[scrollTrackXStyle || scrollTrackStyle]"
+      >
+        <button class="vue-scroll-bar bottom-bar"
+                :class="{'vue-scroll-animation': !moveX}"
+                :style="[{
+                  marginLeft: left + 'px',
+                  width: width + 'px'
+                }, scrollBarXStyle || scrollBarStyle]"
+                @mousedown.stop="startMoveX"
+        ></button>
     </div>
-    <div class="vue-scroll-track bottom-track"
-         @click.stop="(e) => {clickTo(e, 'x');}"
-         v-if="showScrollX"
-         :style="[scrollTrackXStyle || scrollTrackStyle]"
-    >
-      <button class="vue-scroll-bar bottom-bar"
-              :class="{'vue-scroll-animation': !moveX}"
-              :style="[{
-                marginLeft: left + 'px',
-                width: width + 'px'
-              }, scrollBarXStyle || scrollBarStyle]"
-              @mousedown.stop="startMoveX"
-      ></button>
-    </div>
+    </transition>
   </div>
 </template>
 
 <script>
   import getElementCoordinate from './uitls/getElementCoordinate';
   const isFireFox = window.navigator.userAgent.toLowerCase().indexOf('firefox') !== -1;
+  const isPhone = /android|iphone/gi.test(window.navigator.appVersion);
+  const dpr = Math.floor(window.devicePixelRatio + 1 || 1);
+  const fastTime = 0.4;
   export default {
     name: 'vue-scroll-bar',
     props: {
@@ -101,10 +110,20 @@
         startTop: 0,
         startX: 0,
         startLeft: 0,
+        touchStartTime: 0,
         moveX: false,
         moveY: false,
         bottomMove: false,
-        animation: true
+        animation: false,
+        isPhone: isPhone
+      }
+    },
+    computed: {
+      canMovedX () {
+        return this.scrollW > 0 && this.overflow !== 'hidden' && this.overflow !== 'hidden-x';
+      },
+      canMovedY () {
+        return this.scrollH > 0 && this.overflow !== 'hidden' && this.overflow !== 'hidden-y';
       }
     },
     watch: {
@@ -113,7 +132,7 @@
           this.$nextTick(() => {
             this.recalculate();
             this.$nextTick(() => {
-              if (this.showScrollY || this.showScrollX) {
+              if (this.showScrollY || this.showScrollX || isPhone) {
                 this.bindEvents();
               }
             });
@@ -126,6 +145,7 @@
         let scrollDis = this.scrollDisX || this.scrollDis;
         let dis = Math.abs(e.wheelDelta || e.detail);
         let down = (e.wheelDelta < 0) || e.detail > 0;
+        this.animation = true;
         if (isFireFox) {
           scrollDis = (scrollDis * dis) / 3
         } else {
@@ -143,6 +163,7 @@
         }
       },
       clickTo (e, type) {
+        this.animation = true;
         if (type === 'y') {
           const y = e.pageY - getElementCoordinate(this.$refs.scrollWindow).y;
           const scrollDis = this.scrollDisY || this.scrollDis;
@@ -161,83 +182,109 @@
           }
         }
       },
-      moveToY (y) {
-        if (this.startTop + y < 0) {
-          this.top = 0;
-          this.scrollTop = 0;
-        } else if (this.startTop + y > this.scrollWinH - this.height) {
-          this.top = this.scrollWinH - this.height;
-          this.scrollTop = -this.scrollH;
-        } else {
-          this.top = this.startTop + y;
-          this.scrollTop = -this.scrollH * (this.top / (this.scrollWinH - this.height));
+      moveToY (y, clientY) {
+        if (this.canMovedY && this.moveY) {
+          if (this.startTop + y < 0) {
+            this.startTop = this.top = 0;
+            this.scrollTop = 0;
+            this.startY = clientY;
+          } else if (this.startTop + y > this.scrollWinH - this.height) {
+            this.startTop = this.top = this.scrollWinH - this.height;
+            this.scrollTop = -this.scrollH;
+            this.startY = clientY;
+          } else {
+            this.top = this.startTop + y;
+            this.scrollTop = -this.scrollH * (this.top / (this.scrollWinH - this.height));
+          }
         }
       },
-      moveToX (x) {
-        if (this.startLeft + x < 0) {
-          this.left = 0;
-          this.scrollLeft = 0;
-        } else if (this.startLeft + x > this.scrollWinW - this.width) {
-          this.left = this.scrollWinW - this.width;
-          this.scrollLeft = -this.scrollW;
-        } else {
-          this.left = this.startLeft + x;
-          this.scrollLeft = -1 * this.scrollW * (this.left / (this.scrollWinW - this.width));
+      moveToX (x, clientX) {
+        if (this.canMovedX) {
+          if (this.startLeft + x < 0) {
+            this.startLeft = this.left = 0;
+            this.scrollLeft = 0;
+            this.startX = clientX;
+          } else if (this.startLeft + x > this.scrollWinW - this.width) {
+            this.startLeft = this.left = this.scrollWinW - this.width;
+            this.scrollLeft = -this.scrollW;
+            this.startX = clientX;
+          } else {
+            this.left = this.startLeft + x;
+            this.scrollLeft = -1 * this.scrollW * (this.left / (this.scrollWinW - this.width));
+          }
         }
       },
       moveDown (dis) {
-        if (Math.abs(this.scrollTop - dis) > this.scrollH) {
-          this.scrollTop = -this.scrollH;
-          this.top = this.scrollWinH - this.height;
-        } else {
-          this.scrollTop = this.scrollTop - dis;
-          this.top = (Math.abs(this.scrollTop) / this.scrollH) * (this.scrollWinH - this.height);
+        if (this.canMovedY) {
+          if (Math.abs(this.scrollTop - dis) > this.scrollH) {
+            this.scrollTop = -this.scrollH;
+            this.top = this.scrollWinH - this.height;
+          } else {
+            this.scrollTop = this.scrollTop - dis;
+            this.top = (Math.abs(this.scrollTop) / this.scrollH) * (this.scrollWinH - this.height);
+          }
         }
       },
       moveUp (dis) {
-        if (this.scrollTop + dis > 0) {
-          this.scrollTop = 0;
-          this.top = 0;
-        } else {
-          this.scrollTop = this.scrollTop + dis;
-          this.top = (Math.abs(this.scrollTop) / this.scrollH) * (this.scrollWinH - this.height);
+        if (this.canMovedY) {
+          if (this.scrollTop + dis > 0) {
+            this.top = 0;
+            this.scrollTop = 0;
+          } else {
+            this.scrollTop = this.scrollTop + dis;
+            this.top = (Math.abs(this.scrollTop) / this.scrollH) * (this.scrollWinH - this.height);
+          }
         }
       },
       moveLeft (dis) {
-        if (this.scrollLeft + dis > 0) {
-          this.scrollLeft = 0;
-          this.left = 0;
-        } else {
-          this.scrollLeft = this.scrollLeft + dis;
-          this.left = (Math.abs(this.scrollLeft) / this.scrollW) * (this.scrollWinW - this.width);
+        if (this.canMovedX) {
+          if (this.scrollLeft + dis > 0) {
+            this.scrollLeft = 0;
+            this.left = 0;
+          } else {
+            this.scrollLeft = this.scrollLeft + dis;
+            this.left = (Math.abs(this.scrollLeft) / this.scrollW) * (this.scrollWinW - this.width);
+          }
         }
       },
       moveRight (dis) {
-        if (Math.abs(this.scrollLeft - dis) > this.scrollW) {
-          this.scrollLeft = -this.scrollW;
-          this.left = this.scrollWinW - this.width;
-        } else {
-          this.scrollLeft = this.scrollLeft - dis;
-          this.left = (Math.abs(this.scrollLeft) / this.scrollW) * (this.scrollWinW - this.width);
+        if (this.canMovedX) {
+          if (Math.abs(this.scrollLeft - dis) > this.scrollW) {
+            this.scrollLeft = -this.scrollW;
+            this.left = this.scrollWinW - this.width;
+          } else {
+            this.scrollLeft = this.scrollLeft - dis;
+            this.left = (Math.abs(this.scrollLeft) / this.scrollW) * (this.scrollWinW - this.width);
+          }
         }
       },
       startMoveX (e) {
-        this.moveX = true;
-        this.startX = e.clientX;
-        this.startLeft = this.left;
+        if (this.canMovedX) {
+          this.animation = false;
+          this.moveX = true;
+          this.startX = e.touches ? e.touches[0].clientX : e.clientX;
+          this.startLeft = this.left;
+        }
       },
       startMoveY (e) {
-        this.moveY = true;
-        this.startY = e.clientY;
-        this.startTop = this.top;
+        if (this.canMovedY) {
+          this.animation = false;
+          this.moveY = true;
+          this.startY = e.touches ? e.touches[0].clientY : e.clientY;
+          this.startTop = this.top;
+        }
+      },
+      startMove (e) {
+        const overflow = this.overflow;
+        this.touchStartTime = +new Date();
+        (overflow !== 'hidden-y' && overflow !== 'hidden') && (this.startMoveY(e));
+        (overflow !== 'hidden-x' && overflow !== 'hidden') && (this.startMoveX(e));
       },
       recalculate () {
         let {scrollWindow, scrollContent} = this.$refs;
         scrollContent = scrollContent.firstElementChild || scrollContent;
-        const scrollWinH = scrollWindow.offsetHeight;
-        const scrollWinW = scrollWindow.offsetWidth;
-        const contentH = scrollContent.offsetHeight;
-        const contentW = scrollContent.offsetWidth;
+        const {offsetHeight: scrollWinH, offsetWidth: scrollWinW} = scrollWindow;
+        const {offsetHeight: contentH, offsetWidth: contentW} = scrollContent;
         const scrollH = contentH - scrollWinH;
         const scrollW = contentW - scrollWinW;
         const minHeight = this.barXMinHeight;
@@ -249,29 +296,79 @@
         this.contentH = contentH;
         this.scrollWinH = scrollWinH;
         this.scrollWinW = scrollWinW;
-        this.showScrollY = scrollH > 0 && (overflow !== 'hidden-y' && overflow !== 'hidden');
-        this.showScrollX = scrollW > 0 && (overflow !== 'hidden-x' && overflow !== 'hidden');
+        this.showScrollY = !isPhone && scrollH > 0 && (overflow !== 'hidden-y' && overflow !== 'hidden');
+        this.showScrollX = !isPhone && scrollW > 0 && (overflow !== 'hidden-x' && overflow !== 'hidden');
         this.width = scrollWinW / ((scrollW / scrollWinW) + 1) < minWidth ? minWidth : scrollWinW / ((scrollW / scrollWinW) + 1);
         this.height = scrollWinH / ((scrollH / scrollWinH) + 1) < minHeight ? minHeight : scrollWinH / ((scrollH / scrollWinH) + 1);
       },
       bindEvents () {
         let { scrollWindow } = this.$refs;
-        window.addEventListener('mouseup', () => {
-          this.moveY = false;
-          this.moveX = false;
+        !isPhone && window.addEventListener('mouseup', () => {
+          // prevent triggering events on other scroll components
+          if (this.moveX || this.moveY) {
+            this.moveY = false;
+            this.moveX = false;
+          }
         });
-        window.addEventListener('mousemove', (e) => {
+        window.addEventListener('touchend', (e) => {
+          // prevent triggering events on other vue-scroll-scroll components
+          if (this.moveX || this.moveY) {
+            this.moveY = false;
+            this.moveX = false;
+            let moveTime = (+new Date() - this.touchStartTime) / 1000;
+            let moveXDis = this.startX - e.changedTouches[0].clientX;
+            let moveYDis = this.startY - e.changedTouches[0].clientY;
+            let speedX = moveXDis / moveTime;
+            let speedY = moveYDis / moveTime;
+            if (Math.abs(speedY) > this.scrollWinH && moveTime < fastTime) {
+              // when scroll distance is too much,add transition css for scrollContent
+              this.animation = true;
+              if (speedY > 0) {
+                this.moveDown(speedY / 2);
+              } else {
+                this.moveUp(-speedY / 2);
+              }
+            }
+            if (Math.abs(speedX) > this.scrollWinW && moveTime < fastTime) {
+              this.animation = true;
+              if (speedX > 0) {
+                this.moveRight(speedX);
+              } else {
+                this.moveLeft(-speedX);
+              }
+            }
+            if (isPhone) {
+              this.showScrollY = false;
+              this.showScrollX = false;
+            }
+          }
+        })
+        !isPhone && window.addEventListener('mousemove', (e) => {
           if (this.moveY) {
-            this.moveToY(e.clientY - this.startY);
+            let dis = e.clientY - this.startY;
+            this.moveToY(dis, e.clientY);
           }
           if (this.moveX) {
-            this.moveToX(e.clientX - this.startX);
+            this.moveToX(e.clientX - this.startX, e.clientX);
           }
         });
+        window.addEventListener('touchmove', (e) => {
+          if (this.moveY) {
+            let clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            this.showScrollY = true;
+            this.moveToY((this.startY - clientY) / dpr, clientY);
+          }
+          if (this.moveX) {
+            let clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            this.showScrollX = true;
+            this.moveToX((this.startX - clientX) / dpr, clientX);
+          }
+          e.preventDefault();
+        }, { passive: false });
         if (isFireFox) {
-          this.showScrollY && scrollWindow.addEventListener('DOMMouseScroll', this.scroll, false);
+          !isPhone && this.showScrollY && scrollWindow.addEventListener('DOMMouseScroll', this.scroll, false);
         } else {
-          this.showScrollY && scrollWindow.addEventListener('mousewheel', this.scroll, false, { passive: false });
+          !isPhone && this.showScrollY && scrollWindow.addEventListener('mousewheel', this.scroll, false, { passive: false });
         }
       }
     },
@@ -283,6 +380,8 @@
       this.scrollWindow.removeListener('DOMMouseScroll');
       this.scrollWindow.removeListener('mousewheel');
       window.removeEventListener('mouseup');
+      window.removeEventListener('touchend');
+      window.removeEventListener('touchmove');
       window.removeEventListener('mousemove');
     }
   };
@@ -329,6 +428,14 @@
   background: #C0C0C0;
 }
 .vue-scroll-animation{
+  transform:translateZ(0);
   transition:margin-top 0.1s ease, margin-left 0.1s ease;
+}
+.vue-scroll-leave-active {
+  transform:translateZ(0);
+  transition: opacity 1.2s ease;
+}
+.vue-scroll-leave-to{
+  opacity: 0;
 }
 </style>
