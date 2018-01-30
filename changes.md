@@ -14,4 +14,4 @@
 ## 1.1.0
 
 - add feature:support mobile device
-- fix bug: when scrollBar move to the edge of tack,it can't follow in the opposite direction im immediately.
+- fix bug: when scrollBar move to the edge of tack,it can't follow in the opposite direction immediately.
