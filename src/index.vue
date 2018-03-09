@@ -321,7 +321,7 @@
   width:5px;
   right: 0;
   top:0;
-  bottom: 0px;
+  bottom: 0;
 }
 .bottom-track {
   position: absolute;
@@ -337,6 +337,7 @@
   display: block;
   border-radius: 2px;
   outline: none;
+  margin: 0;
 }
 .left-bar{
   width:100%;
