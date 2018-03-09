@@ -92,9 +92,6 @@
       },
       watchValue: {
         default: null
-      },
-      watchResize: {
-        default: false
       }
     },
     data () {
@@ -382,24 +379,19 @@
         });
       },
       handleResize (e) {
+        console.log('resize!');
         this.recalculate();
       }
     },
     mounted () {
       this.recalculate();
       this.bindEvents();
-      if (this.watchResize) {
-        window.addEventListener('resize', this.handleResize);
-      }
     },
     destroy () {
       window.removeEventListener('mouseup');
       window.removeEventListener('touchend');
       window.removeEventListener('touchmove');
       window.removeEventListener('mousemove');
-      if (this.watchResize) {
-        window.removeEventListener('resize', this.handleResize);
-      }
     },
     components: {
       ResizeObserver
