@@ -101,7 +101,6 @@ p{
   height: 20px;
 }
 p:hover {
-  background: #999;
   cursor: default;
 }
 .warp{

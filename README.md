@@ -1,13 +1,16 @@
 # vue-scroll-bar
+[![npm](https://img.shields.io/npm/l/vue-scroll-bar.svg)]()
 [![Build Status](https://travis-ci.org/YuChenLi923/vue-scroll-bar.svg?branch=master)](https://travis-ci.org/YuChenLi923/vue-scroll-bar)
 ![NPM version](https://badge.fury.io/js/vue-scroll-bar.svg)
 ![Downloads](http://img.shields.io/npm/dm/vue-scroll-bar.svg?style=flat)
 
-> a simple custom scrollbar vue component
+> a simple custom scrollbar vue component, it can support pc and mobile.
 
 ![show-y](show-y.gif)
 
 ![show-x](show-x.gif)
+
+[DEMO](https://yuchenli923.github.io/vue-scroll-bar/example/demo.html)
 ## Install
 
 ```
@@ -69,4 +72,4 @@ export default {
 | scrollYDis | Number | scrollDis| The distance of each scroll in the direction of Y axis
 | scrollXDis | Number | scrollDis| The distance of each scroll in the direction of X axis
 | overflow | String | 'auto'| 'auto', 'hidden', 'hidden-x', 'hidden-y'
-| watchValue | Any | `null` | For reactive solutions - when content expands, bar would be refreshed
+| watchValue | Any | `null` |  when content expands, bar would be refreshed

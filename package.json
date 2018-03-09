@@ -7,7 +7,10 @@
   "main": "src/index.vue",
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "lint": "eslint ./src",
+    "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
+    "test": "npm run unit"
   },
   "repository": {
     "type": "git",

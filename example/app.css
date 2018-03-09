@@ -1,0 +1,98 @@
+
+*{
+  padding: 0;
+  margin: 0;
+}
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+p{
+  padding-left: 20px;
+  height: 20px;
+}
+p:hover {
+  cursor: default;
+}
+.warp{
+  height: 80px;
+  overflow: hidden;
+  width: 300px;
+  margin: auto;
+  border-radius: 2px;
+  -webkit-box-shadow: 0 1px 10px 0 #d0d6e2;
+          box-shadow: 0 1px 10px 0 #d0d6e2;
+  margin-top: 20px;
+}
+.warp-button {
+  margin: auto;
+  width: 300px;
+  margin-top: 20px;
+}
+button {
+  border-radius: 2px;
+  -webkit-box-shadow: 0 1px 10px 0 #d0d6e2;
+          box-shadow: 0 1px 10px 0 #d0d6e2;
+  margin-top: 10px;
+}
+.test{
+  width: 400px;
+}
+
+.vue-scroll-window[data-v-6a7b694e]{
+  overflow: hidden;
+  position: relative;
+}
+.vue-scroll-track[data-v-6a7b694e]{
+  background: #EFF6FA;
+}
+.left-track[data-v-6a7b694e]{
+  position: absolute;
+  z-index:1;
+  width:5px;
+  right: 0;
+  top:0;
+  bottom: 0;
+}
+.bottom-track[data-v-6a7b694e] {
+  position: absolute;
+  z-index:1;
+  left: 0;
+  bottom:0;
+  right: 0;
+  height: 5px;
+}
+.vue-scroll-bar[data-v-6a7b694e]{
+  padding: 0;
+  border: none;
+  display: block;
+  border-radius: 2px;
+  outline: none;
+  margin: 0;
+}
+.left-bar[data-v-6a7b694e]{
+  width:100%;
+  background: #C0C0C0;
+}
+.bottom-bar[data-v-6a7b694e] {
+  height: 100%;
+  background: #C0C0C0;
+}
+.vue-scroll-animation[data-v-6a7b694e]{
+  -webkit-transform:translateZ(0);
+          transform:translateZ(0);
+  -webkit-transition:margin-top 0.1s ease, margin-left 0.1s ease;
+  transition:margin-top 0.1s ease, margin-left 0.1s ease;
+}
+.vue-scroll-leave-active[data-v-6a7b694e] {
+  -webkit-transform:translateZ(0);
+          transform:translateZ(0);
+  -webkit-transition: opacity 1.2s ease;
+  transition: opacity 1.2s ease;
+}
+.vue-scroll-leave-to[data-v-6a7b694e]{
+  opacity: 0;
+}
