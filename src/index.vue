@@ -148,27 +148,6 @@
         if (this.showScrollY) this.scrollY(y);
         if (this.showScrollX) this.scrollX(x);
       },
-      scroll (e) {
-        let scrollDis = this.scrollDisX || this.scrollDis;
-        let dis = Math.abs(e.wheelDelta || e.detail);
-        let down = (e.wheelDelta < 0) || e.detail > 0;
-        this.animation = true;
-        if (isFireFox) {
-          scrollDis = (scrollDis * dis) / 3
-        } else {
-          scrollDis = (scrollDis * dis) / 120
-        }
-        if (down) {
-          this.moveDown(scrollDis);
-        } else {
-          this.moveUp(scrollDis);
-        }
-        if (e.preventDefault) {
-          e.preventDefault();
-        } else {
-          e.returnValue = false;
-        }
-      },
       clickTo (e, type) {
         this.animation = true;
         if (type === 'y') {
