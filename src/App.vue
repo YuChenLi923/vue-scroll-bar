@@ -42,6 +42,20 @@
         </p>
       </div>
     </scroll-bar>
+    <div class="warp-button">
+      <button @click="addItem2">Add item to recalculate for resize test</button>
+    </div>
+    <scroll-bar class="warp2"
+                :watchValue="items2"
+                :watchResize="true"
+                overflow="hidden-y"
+    >
+      <div class="test2">
+        <p v-for="(item, $index) in items2">
+          item no {{$index}}  to recalculate for resize test
+        </p>
+      </div>
+    </scroll-bar>
   </div>
 </template>
 
@@ -51,7 +65,8 @@ export default {
   name: 'app',
   data () {
     return {
-      items: [new Date()]
+      items: [new Date()],
+      items2: [new Date()]
     }
   },
   components: {
@@ -60,6 +75,9 @@ export default {
   methods: {
     addItem () {
       this.items.push(new Date());
+    },
+    addItem2 () {
+      this.items2.push(new Date());
     }
   }
 }
@@ -95,6 +113,26 @@ p:hover {
   box-shadow: 0 1px 10px 0 #d0d6e2;
   margin-top: 20px;
 }
+
+.warp2{
+  height: 80px;
+  overflow: hidden;
+  width: 100%;
+  margin: auto;
+  border-radius: 2px;
+  box-shadow: 0 1px 10px 0 #d0d6e2;
+  margin-top: 20px;
+}
+
+.warp2 p {
+  display: inline-block;
+  padding: 0 10px;
+}
+
+.warp2 .test2 {
+  display: inline-block;
+  white-space: nowrap;
+}
 .warp-button {
   margin: auto;
   width: 300px;
@@ -103,7 +141,6 @@ p:hover {
 button {
   border-radius: 2px;
   box-shadow: 0 1px 10px 0 #d0d6e2;
-  margin-top: 10px;
 }
 .test{
   width: 400px;
