@@ -2,6 +2,7 @@
   <div ref="scrollWindow" class="vue-scroll-window"
        @touchstart.stop = "startMove"
   >
+    <resize-observer @notify="handleResize" />
     <div class="vue-scroll-body"
          :class="{'vue-scroll-animation': animation}"
          ref="scrollContent"
@@ -44,6 +45,7 @@
 </template>
 
 <script>
+  import { ResizeObserver } from 'vue-resize'
   import getElementCoordinate from './uitls/getElementCoordinate';
   import mouseWheel from 'mouse-wheel';
   const isPhone = /android|iphone/gi.test(window.navigator.appVersion);
@@ -398,6 +400,9 @@
       if (this.watchResize) {
         window.removeEventListener('resize', this.handleResize);
       }
+    },
+    components: {
+      ResizeObserver
     }
   };
 </script>
