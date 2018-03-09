@@ -183,7 +183,7 @@
         }
       },
       moveUp (dis) {
-        if (this.scrollTop + dis <= 0) {
+        if (this.scrollTop + dis > 0) {
           this.scrollTop = 0;
           this.top = 0;
         } else {
