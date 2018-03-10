@@ -15,3 +15,8 @@
 
 - add feature:support mobile device
 - fix bug: when scrollBar move to the edge of tack,it can't follow in the opposite direction immediately.
+
+## 1.2.0
+- add feature: scrollbar is refreshing when scroll container has been resized
+- fix style in demo: horizontal scrollBar is not visible
+- scroll events handler are refactored to base on cross-browser `mouse-wheel` package

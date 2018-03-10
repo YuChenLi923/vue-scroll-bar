@@ -2,6 +2,7 @@
   <div ref="scrollWindow" class="vue-scroll-window"
        @touchstart.stop = "startMove"
   >
+    <resize-observer @notify="handleResize" />
     <div class="vue-scroll-body"
          :class="{'vue-scroll-animation': animation}"
          ref="scrollContent"
@@ -44,8 +45,9 @@
 </template>
 
 <script>
+  import { ResizeObserver } from 'vue-resize'
   import getElementCoordinate from './uitls/getElementCoordinate';
-  const isFireFox = window.navigator.userAgent.toLowerCase().indexOf('firefox') !== -1;
+  import mouseWheel from 'mouse-wheel';
   const isPhone = /android|iphone/gi.test(window.navigator.appVersion);
   const dpr = Math.floor(window.devicePixelRatio + 1 || 1);
   const fastTime = 0.4;
@@ -141,26 +143,9 @@
       }
     },
     methods: {
-      scroll (e) {
-        let scrollDis = this.scrollDisX || this.scrollDis;
-        let dis = Math.abs(e.wheelDelta || e.detail);
-        let down = (e.wheelDelta < 0) || e.detail > 0;
-        this.animation = true;
-        if (isFireFox) {
-          scrollDis = (scrollDis * dis) / 3
-        } else {
-          scrollDis = (scrollDis * dis) / 120
-        }
-        if (down) {
-          this.moveDown(scrollDis);
-        } else {
-          this.moveUp(scrollDis);
-        }
-        if (e.preventDefault) {
-          e.preventDefault();
-        } else {
-          e.returnValue = false;
-        }
+      scrollXY (x, y) {
+        if (this.showScrollY) this.scrollY(y);
+        if (this.showScrollX) this.scrollX(x);
       },
       clickTo (e, type) {
         this.animation = true;
@@ -234,6 +219,30 @@
             this.scrollTop = this.scrollTop + dis;
             this.top = (Math.abs(this.scrollTop) / this.scrollH) * (this.scrollWinH - this.height);
           }
+        }
+      },
+      scrollY (dis) {
+        if (dis < 0 && this.scrollTop + dis <= 0) {
+          this.scrollTop = 0;
+          this.top = 0;
+        } else if (dis > 0 && this.scrollTop + dis < this.scrollH) {
+          this.scrollTop = -this.scrollH;
+          this.top = this.scrollWinH - this.height;
+        } else {
+          this.scrollTop = this.scrollTop - dis;
+          this.top = (Math.abs(this.scrollTop) / this.scrollH) * (this.scrollWinH - this.height);
+        }
+      },
+      scrollX (dis) {
+        if (dis < 0 && this.scrollLeft + dis <= 0) {
+          this.scrollLeft = 0;
+          this.left = 0;
+        } else if (dis > 0 && this.scrollLeft + dis < this.scrollW) {
+          this.scrollLeft = -this.scrollW;
+          this.left = this.scrollWinW - this.width;
+        } else {
+          this.scrollLeft = this.scrollLeft - dis;
+          this.left = (Math.abs(this.scrollLeft) / this.scrollW) * (this.scrollWinW - this.width);
         }
       },
       moveLeft (dis) {
@@ -365,11 +374,13 @@
           }
           e.preventDefault();
         }, { passive: false });
-        if (isFireFox) {
-          !isPhone && this.showScrollY && scrollWindow.addEventListener('DOMMouseScroll', this.scroll, false);
-        } else {
-          !isPhone && this.showScrollY && scrollWindow.addEventListener('mousewheel', this.scroll, false, { passive: false });
-        }
+        mouseWheel(scrollWindow, (dx, dy) => {
+          this.scrollXY(dx, dy);
+        });
+      },
+      handleResize (e) {
+        console.log('resize!');
+        this.recalculate();
       }
     },
     mounted () {
@@ -377,12 +388,13 @@
       this.bindEvents();
     },
     destroy () {
-      this.scrollWindow.removeListener('DOMMouseScroll');
-      this.scrollWindow.removeListener('mousewheel');
       window.removeEventListener('mouseup');
       window.removeEventListener('touchend');
       window.removeEventListener('touchmove');
       window.removeEventListener('mousemove');
+    },
+    components: {
+      ResizeObserver
     }
   };
 </script>
