@@ -18,6 +18,7 @@
 
 ## 1.2.0
 - add feature: scrollbar is refreshing when scroll container has been resized
+- fix bug: when scrollbar's height or width is the min value,the scrollbar's top or left does not change with size.
 - fix style in demo: horizontal scrollBar is not visible
 - scroll events handler are refactored to base on cross-browser `mouse-wheel` package
-- modify scrollDis: The distance of scrollbar moving  in the direction of X axis when you click the scroll track
+- delete props: scrollDis,scrollDisX,scrollDisY

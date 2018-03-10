@@ -19,7 +19,7 @@
                 :class="{'vue-scroll-animation': !moveY}"
                 :style="[{
                   marginTop: top + 'px',
-                  height: (showScrollX ? height - 5: height) + 'px'
+                  height: height + 'px'
                 }, scrollBarYStyle || scrollBarStyle]"
                 @mousedown.stop="startMoveY"
         ></button>
@@ -54,15 +54,6 @@
   export default {
     name: 'vue-scroll-bar',
     props: {
-      scrollDis: {
-        default: 130
-      },
-      scrollDisX: {
-        default: false
-      },
-      scrollDisY: {
-        default: false
-      },
       barXMinHeight: {
         default: 20
       },
@@ -100,12 +91,14 @@
         showScrollX: false,
         scrollTop: 0,
         scrollLeft: 0,
+        trackScrollW: 0,
         top: 0,
         height: 0,
         left: 0,
         width: 0,
         scrollWinH: 0,
         scrollH: 0,
+        trackScrollH: 0,
         contentH: 0,
         contentW: 0,
         startY: 0,
@@ -125,11 +118,6 @@
         if (this.watchValue) {
           this.$nextTick(() => {
             this.recalculate();
-            this.$nextTick(() => {
-              if (this.showScrollY || this.showScrollX || isPhone) {
-                this.bindEvents();
-              }
-            });
           });
         }
       }
@@ -141,30 +129,42 @@
       isCanMovedY () {
         return this.scrollH > 0 && this.overflow !== 'hidden' && this.overflow !== 'hidden-y';
       },
-      scroll (x, y) {
-        if (y > 0) {
-          this.moveDown(y);
+      scroll (dx, dy, dz, ev) {
+        if (dy > 0) {
+          this.moveDown(dy);
         } else {
-          this.moveUp(-y);
+          this.moveUp(-dy);
         }
+        ev.preventDefault();
       },
       clickTo (e, type) {
         this.animation = true;
+        let dis;
         if (type === 'y') {
           const y = e.pageY - getElementCoordinate(this.$refs.scrollWindow).y;
-          const scrollDis = this.scrollDisY || this.scrollDis;
+          let disY = this.top - y;
+          if (disY > 0) {
+            dis = ((disY) / (this.trackScrollH)) * this.scrollH;
+          } else {
+            dis = ((-disY - (this.height)) / (this.trackScrollH)) * this.scrollH;
+          }
           if (y > 0 && y < this.top) {
-            this.moveUp(scrollDis);
+            this.moveUp(dis);
           } else if (y > this.top + this.height) {
-            this.moveDown(scrollDis);
+            this.moveDown(dis);
           }
         } else {
           const x = e.pageX - getElementCoordinate(this.$refs.scrollWindow).x;
-          const scrollDis = this.scrollDisX || this.scrollDis;
+          let disX = this.left - x;
+          if (disX > 0) {
+            dis = ((disX) / (this.trackScrollW)) * this.scrollW;
+          } else {
+            dis = ((-disX - (this.width)) / (this.trackScrollW)) * this.scrollW;
+          }
           if (x > 0 && x < this.left) {
-            this.moveLeft(scrollDis);
+            this.moveLeft(dis);
           } else if (x > this.left + this.width) {
-            this.moveRight(scrollDis);
+            this.moveRight(dis);
           }
         }
       },
@@ -174,13 +174,13 @@
             this.startTop = this.top = 0;
             this.scrollTop = 0;
             this.startY = clientY;
-          } else if (this.startTop + y > this.scrollWinH - this.height) {
-            this.startTop = this.top = this.scrollWinH - this.height;
+          } else if (this.startTop + y > this.trackScrollH) {
+            this.startTop = this.top = this.trackScrollH;
             this.scrollTop = -this.scrollH;
             this.startY = clientY;
           } else {
             this.top = this.startTop + y;
-            this.scrollTop = -this.scrollH * (this.top / (this.scrollWinH - this.height));
+            this.scrollTop = -this.scrollH * (this.top / this.trackScrollH);
           }
         }
       },
@@ -190,13 +190,13 @@
             this.startLeft = this.left = 0;
             this.scrollLeft = 0;
             this.startX = clientX;
-          } else if (this.startLeft + x > this.scrollWinW - this.width) {
-            this.startLeft = this.left = this.scrollWinW - this.width;
+          } else if (this.startLeft + x > this.trackScrollW) {
+            this.startLeft = this.left = this.trackScrollW;
             this.scrollLeft = -this.scrollW;
             this.startX = clientX;
           } else {
             this.left = this.startLeft + x;
-            this.scrollLeft = -1 * this.scrollW * (this.left / (this.scrollWinW - this.width));
+            this.scrollLeft = -1 * this.scrollW * (this.left / this.trackScrollW);
           }
         }
       },
@@ -204,10 +204,10 @@
         if (this.isCanMovedY()) {
           if (Math.abs(this.scrollTop - dis) > this.scrollH) {
             this.scrollTop = -this.scrollH;
-            this.top = this.scrollWinH - this.height;
+            this.top = this.trackScrollH;
           } else {
             this.scrollTop = this.scrollTop - dis;
-            this.top = (Math.abs(this.scrollTop) / this.scrollH) * (this.scrollWinH - this.height);
+            this.top = (Math.abs(this.scrollTop) / this.scrollH) * this.trackScrollH;
           }
         }
       },
@@ -218,7 +218,7 @@
             this.scrollTop = 0;
           } else {
             this.scrollTop = this.scrollTop + dis;
-            this.top = (Math.abs(this.scrollTop) / this.scrollH) * (this.scrollWinH - this.height);
+            this.top = (Math.abs(this.scrollTop) / this.scrollH) * this.trackScrollH;
           }
         }
       },
@@ -229,7 +229,7 @@
             this.left = 0;
           } else {
             this.scrollLeft = this.scrollLeft + dis;
-            this.left = (Math.abs(this.scrollLeft) / this.scrollW) * (this.scrollWinW - this.width);
+            this.left = (Math.abs(this.scrollLeft) / this.scrollW) * this.trackScrollW;
           }
         }
       },
@@ -237,10 +237,10 @@
         if (this.isCanMovedX()) {
           if (Math.abs(this.scrollLeft - dis) > this.scrollW) {
             this.scrollLeft = -this.scrollW;
-            this.left = this.scrollWinW - this.width;
+            this.left = this.trackScrollW;
           } else {
             this.scrollLeft = this.scrollLeft - dis;
-            this.left = (Math.abs(this.scrollLeft) / this.scrollW) * (this.scrollWinW - this.width);
+            this.left = (Math.abs(this.scrollLeft) / this.scrollW) * this.trackScrollW;
           }
         }
       },
@@ -271,11 +271,11 @@
         scrollContent = scrollContent.firstElementChild || scrollContent;
         const {offsetHeight: scrollWinH, offsetWidth: scrollWinW} = scrollWindow;
         const {offsetHeight: contentH, offsetWidth: contentW} = scrollContent;
-        const scrollH = contentH - scrollWinH;
-        const scrollW = contentW - scrollWinW;
         const minHeight = this.barXMinHeight;
         const minWidth = this.barYMinWidth;
         const overflow = this.overflow;
+        let scrollH = contentH - scrollWinH;
+        let scrollW = contentW - scrollWinW;
         this.scrollH = scrollH;
         this.scrollW = scrollW;
         this.contentW = contentW;
@@ -286,6 +286,10 @@
         this.showScrollX = !isPhone && scrollW > 0 && (overflow !== 'hidden-x' && overflow !== 'hidden');
         this.width = scrollWinW / ((scrollW / scrollWinW) + 1) < minWidth ? minWidth : scrollWinW / ((scrollW / scrollWinW) + 1);
         this.height = scrollWinH / ((scrollH / scrollWinH) + 1) < minHeight ? minHeight : scrollWinH / ((scrollH / scrollWinH) + 1);
+        this.trackScrollH = this.scrollWinH - this.height - (this.showScrollX ? 5 : 0);
+        this.trackScrollW = this.scrollWinW - this.width;
+        this.top = (Math.abs(this.scrollTop) / scrollH) * this.trackScrollH;
+        this.left = (Math.abs(this.scrollLeft) / this.scrollW) * this.trackScrollW;
       },
       bindEvents () {
         let { scrollWindow } = this.$refs;

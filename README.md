@@ -68,8 +68,5 @@ export default {
 | scrollBarXStyle    |  Object     | scrollBarStyle | the style of scroll bar in the direction of X axis
 | barYMinHeight | Number | 20 |  the min height of scroll bar in the direction of Y axis
 | barXMinWidth | Number | 20 |  the min width of scroll bar in the direction of X axis
-| scrollDis | Number | 130|  The distance of scrollbar moving when you click the track
-| scrollYDis | Number | scrollDis| The distance of scrollbar moving  in the direction of X axis when you click the scroll track
-| scrollXDis | Number | scrollDis| The distance of scrollbar moving  in the direction of Y axis when you click the scroll track
 | overflow | String | 'auto'| 'auto', 'hidden', 'hidden-x', 'hidden-y'
 | watchValue | Any | `null` |  when content expands, bar would be refreshed
