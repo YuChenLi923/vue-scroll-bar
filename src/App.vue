@@ -2,32 +2,23 @@
   <div id="app">
     <scroll-bar class="warp" overflow="hidden-x">
       <div class="test">
-        <p>select1</p>
-        <p>select2</p>
-        <p>select3</p>
-        <p>select4</p>
-        <p>select5</p>
-        <p>select6</p>
+        <p v-for="index in 6">
+          item no {{index}}
+        </p>
       </div>
     </scroll-bar>
     <scroll-bar class="warp" overflow="hidden-y">
       <div class="test">
-        <p>select1</p>
-        <p>select2</p>
-        <p>select3</p>
-        <p>select4</p>
-        <p>select5</p>
-        <p>select6</p>
+        <p v-for="index in 6">
+          item no {{index}}
+        </p>
       </div>
     </scroll-bar>
     <scroll-bar class="warp" overflow="auto">
       <div class="test">
-        <p>select1</p>
-        <p>select2</p>
-        <p>select3</p>
-        <p>select4</p>
-        <p>select5</p>
-        <p>select6</p>
+        <p v-for="index in 6">
+          item no {{index}}
+        </p>
       </div>
     </scroll-bar>
     <div class="warp-button">
@@ -52,7 +43,7 @@
     >
       <div class="test2">
         <p v-for="(item, $index) in items2">
-          item no {{$index}}  to recalculate for resize test
+          item no {{$index}}  to recalculate for resize
         </p>
       </div>
     </scroll-bar>
@@ -116,7 +107,7 @@ p:hover {
 .warp2{
   height: 80px;
   overflow: hidden;
-  width: 100%;
+  max-width: 1000px;
   margin: auto;
   border-radius: 2px;
   box-shadow: 0 1px 10px 0 #d0d6e2;

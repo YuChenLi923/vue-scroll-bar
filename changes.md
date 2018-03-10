@@ -20,3 +20,4 @@
 - add feature: scrollbar is refreshing when scroll container has been resized
 - fix style in demo: horizontal scrollBar is not visible
 - scroll events handler are refactored to base on cross-browser `mouse-wheel` package
+- modify scrollDis: The distance of scrollbar moving  in the direction of X axis when you click the scroll track

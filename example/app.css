@@ -27,6 +27,24 @@ p:hover {
           box-shadow: 0 1px 10px 0 #d0d6e2;
   margin-top: 20px;
 }
+.warp2{
+  height: 80px;
+  overflow: hidden;
+  max-width: 1000px;
+  margin: auto;
+  border-radius: 2px;
+  -webkit-box-shadow: 0 1px 10px 0 #d0d6e2;
+          box-shadow: 0 1px 10px 0 #d0d6e2;
+  margin-top: 20px;
+}
+.warp2 p {
+  display: inline-block;
+  padding: 0 10px;
+}
+.warp2 .test2 {
+  display: inline-block;
+  white-space: nowrap;
+}
 .warp-button {
   margin: auto;
   width: 300px;
@@ -36,20 +54,19 @@ button {
   border-radius: 2px;
   -webkit-box-shadow: 0 1px 10px 0 #d0d6e2;
           box-shadow: 0 1px 10px 0 #d0d6e2;
-  margin-top: 10px;
 }
 .test{
   width: 400px;
 }
 
-.vue-scroll-window[data-v-6a7b694e]{
+.vue-scroll-window[data-v-7613c6dc]{
   overflow: hidden;
   position: relative;
 }
-.vue-scroll-track[data-v-6a7b694e]{
+.vue-scroll-track[data-v-7613c6dc]{
   background: #EFF6FA;
 }
-.left-track[data-v-6a7b694e]{
+.left-track[data-v-7613c6dc]{
   position: absolute;
   z-index:1;
   width:5px;
@@ -57,7 +74,7 @@ button {
   top:0;
   bottom: 0;
 }
-.bottom-track[data-v-6a7b694e] {
+.bottom-track[data-v-7613c6dc] {
   position: absolute;
   z-index:1;
   left: 0;
@@ -65,7 +82,7 @@ button {
   right: 0;
   height: 5px;
 }
-.vue-scroll-bar[data-v-6a7b694e]{
+.vue-scroll-bar[data-v-7613c6dc]{
   padding: 0;
   border: none;
   display: block;
@@ -73,26 +90,26 @@ button {
   outline: none;
   margin: 0;
 }
-.left-bar[data-v-6a7b694e]{
+.left-bar[data-v-7613c6dc]{
   width:100%;
   background: #C0C0C0;
 }
-.bottom-bar[data-v-6a7b694e] {
+.bottom-bar[data-v-7613c6dc] {
   height: 100%;
   background: #C0C0C0;
 }
-.vue-scroll-animation[data-v-6a7b694e]{
+.vue-scroll-animation[data-v-7613c6dc]{
   -webkit-transform:translateZ(0);
           transform:translateZ(0);
   -webkit-transition:margin-top 0.1s ease, margin-left 0.1s ease;
   transition:margin-top 0.1s ease, margin-left 0.1s ease;
 }
-.vue-scroll-leave-active[data-v-6a7b694e] {
+.vue-scroll-leave-active[data-v-7613c6dc] {
   -webkit-transform:translateZ(0);
           transform:translateZ(0);
   -webkit-transition: opacity 1.2s ease;
   transition: opacity 1.2s ease;
 }
-.vue-scroll-leave-to[data-v-6a7b694e]{
+.vue-scroll-leave-to[data-v-7613c6dc]{
   opacity: 0;
 }

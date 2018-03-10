@@ -120,14 +120,6 @@
         isPhone: isPhone
       }
     },
-    computed: {
-      canMovedX () {
-        return this.scrollW > 0 && this.overflow !== 'hidden' && this.overflow !== 'hidden-x';
-      },
-      canMovedY () {
-        return this.scrollH > 0 && this.overflow !== 'hidden' && this.overflow !== 'hidden-y';
-      }
-    },
     watch: {
       watchValue () {
         if (this.watchValue) {
@@ -143,9 +135,18 @@
       }
     },
     methods: {
-      scrollXY (x, y) {
-        if (this.showScrollY) this.scrollY(y);
-        if (this.showScrollX) this.scrollX(x);
+      isCanMovedX () {
+        return this.scrollW > 0 && this.overflow !== 'hidden' && this.overflow !== 'hidden-x';
+      },
+      isCanMovedY () {
+        return this.scrollH > 0 && this.overflow !== 'hidden' && this.overflow !== 'hidden-y';
+      },
+      scroll (x, y) {
+        if (y > 0) {
+          this.moveDown(y);
+        } else {
+          this.moveUp(-y);
+        }
       },
       clickTo (e, type) {
         this.animation = true;
@@ -168,7 +169,7 @@
         }
       },
       moveToY (y, clientY) {
-        if (this.canMovedY && this.moveY) {
+        if (this.isCanMovedY() && this.moveY) {
           if (this.startTop + y < 0) {
             this.startTop = this.top = 0;
             this.scrollTop = 0;
@@ -184,7 +185,7 @@
         }
       },
       moveToX (x, clientX) {
-        if (this.canMovedX) {
+        if (this.isCanMovedX()) {
           if (this.startLeft + x < 0) {
             this.startLeft = this.left = 0;
             this.scrollLeft = 0;
@@ -200,7 +201,7 @@
         }
       },
       moveDown (dis) {
-        if (this.canMovedY) {
+        if (this.isCanMovedY()) {
           if (Math.abs(this.scrollTop - dis) > this.scrollH) {
             this.scrollTop = -this.scrollH;
             this.top = this.scrollWinH - this.height;
@@ -211,7 +212,7 @@
         }
       },
       moveUp (dis) {
-        if (this.canMovedY) {
+        if (this.isCanMovedY()) {
           if (this.scrollTop + dis > 0) {
             this.top = 0;
             this.scrollTop = 0;
@@ -221,32 +222,8 @@
           }
         }
       },
-      scrollY (dis) {
-        if (dis < 0 && this.scrollTop + dis <= 0) {
-          this.scrollTop = 0;
-          this.top = 0;
-        } else if (dis > 0 && this.scrollTop + dis < this.scrollH) {
-          this.scrollTop = -this.scrollH;
-          this.top = this.scrollWinH - this.height;
-        } else {
-          this.scrollTop = this.scrollTop - dis;
-          this.top = (Math.abs(this.scrollTop) / this.scrollH) * (this.scrollWinH - this.height);
-        }
-      },
-      scrollX (dis) {
-        if (dis < 0 && this.scrollLeft + dis <= 0) {
-          this.scrollLeft = 0;
-          this.left = 0;
-        } else if (dis > 0 && this.scrollLeft + dis < this.scrollW) {
-          this.scrollLeft = -this.scrollW;
-          this.left = this.scrollWinW - this.width;
-        } else {
-          this.scrollLeft = this.scrollLeft - dis;
-          this.left = (Math.abs(this.scrollLeft) / this.scrollW) * (this.scrollWinW - this.width);
-        }
-      },
       moveLeft (dis) {
-        if (this.canMovedX) {
+        if (this.isCanMovedX()) {
           if (this.scrollLeft + dis > 0) {
             this.scrollLeft = 0;
             this.left = 0;
@@ -257,7 +234,7 @@
         }
       },
       moveRight (dis) {
-        if (this.canMovedX) {
+        if (this.isCanMovedX()) {
           if (Math.abs(this.scrollLeft - dis) > this.scrollW) {
             this.scrollLeft = -this.scrollW;
             this.left = this.scrollWinW - this.width;
@@ -268,7 +245,7 @@
         }
       },
       startMoveX (e) {
-        if (this.canMovedX) {
+        if (this.isCanMovedX()) {
           this.animation = false;
           this.moveX = true;
           this.startX = e.touches ? e.touches[0].clientX : e.clientX;
@@ -276,7 +253,7 @@
         }
       },
       startMoveY (e) {
-        if (this.canMovedY) {
+        if (this.isCanMovedY()) {
           this.animation = false;
           this.moveY = true;
           this.startY = e.touches ? e.touches[0].clientY : e.clientY;
@@ -374,12 +351,9 @@
           }
           e.preventDefault();
         }, { passive: false });
-        mouseWheel(scrollWindow, (dx, dy) => {
-          this.scrollXY(dx, dy);
-        });
+        mouseWheel(scrollWindow, this.scroll);
       },
       handleResize (e) {
-        console.log('resize!');
         this.recalculate();
       }
     },
