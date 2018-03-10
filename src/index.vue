@@ -130,11 +130,8 @@
         return this.scrollH > 0 && this.overflow !== 'hidden' && this.overflow !== 'hidden-y';
       },
       scroll (dx, dy, dz, ev) {
-        if (dy > 0) {
-          this.moveDown(dy);
-        } else {
-          this.moveUp(-dy);
-        }
+        dy && dy > 0 ? this.moveDown(dy) : this.moveUp(-dy);
+        dx && dx > 0 ? this.moveRight(dx) : this.moveLeft(-dx);
         ev.preventDefault();
       },
       clickTo (e, type) {
