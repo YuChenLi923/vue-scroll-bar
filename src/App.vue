@@ -24,6 +24,9 @@
     <div class="warp-button">
       <button @click="addItem">Add item to recalculate</button>
     </div>
+    <div class="warp-button">
+      <button @click="removeItem">Remove item to recalculate for resize test</button>
+    </div>
     <scroll-bar class="warp"
                 overflow="hidden-x"
                 :watchValue="items">
@@ -35,6 +38,9 @@
     </scroll-bar>
     <div class="warp-button">
       <button @click="addItem2">Add item to recalculate for resize test</button>
+    </div>
+    <div class="warp-button">
+      <button @click="removeItem2">Remove item to recalculate for resize test</button>
     </div>
     <scroll-bar class="warp2"
                 :watchValue="items2"
@@ -67,8 +73,14 @@ export default {
     addItem () {
       this.items.push(new Date());
     },
+    removeItem () {
+      this.items.pop();
+    },
     addItem2 () {
       this.items2.push(new Date());
+    },
+    removeItem2 () {
+      this.items2.pop();
     }
   }
 }
