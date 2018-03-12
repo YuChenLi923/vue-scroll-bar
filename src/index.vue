@@ -274,8 +274,10 @@
         const minHeight = this.barXMinHeight;
         const minWidth = this.barYMinWidth;
         const overflow = this.overflow;
-        let scrollH = contentH - scrollWinH;
-        let scrollW = contentW - scrollWinW;
+        let scrollH = contentH - scrollWinH > 0 ? contentH - scrollWinH : 0;
+        let scrollW = contentW - scrollWinW > 0 ? contentW - scrollWinW : 0;
+        let preScrollXPercent = this.left / this.scrollW;
+        let preScrollYPercent = this.top / this.scrollH;
         this.scrollH = scrollH;
         this.scrollW = scrollW;
         this.contentW = contentW;
@@ -288,8 +290,10 @@
         this.height = scrollWinH / ((scrollH / scrollWinH) + 1) < minHeight ? minHeight : scrollWinH / ((scrollH / scrollWinH) + 1);
         this.trackScrollH = this.scrollWinH - this.height - (this.showScrollX ? 5 : 0);
         this.trackScrollW = this.scrollWinW - this.width;
-        this.top = (Math.abs(this.scrollTop) / scrollH) * this.trackScrollH;
-        this.left = (Math.abs(this.scrollLeft) / this.scrollW) * this.trackScrollW;
+        this.left = Math.abs(preScrollXPercent) * this.trackScrollW || 0;
+        this.top = Math.abs(preScrollYPercent) * this.trackScrollH || 0;
+        this.scrollLeft = -1 * this.scrollW * (this.left / this.trackScrollW) || 0;
+        this.scrollTop = -1 * this.scrollH * (this.top / this.trackScrollH) || 0;
       },
       bindEvents () {
         let { scrollWindow } = this.$refs;

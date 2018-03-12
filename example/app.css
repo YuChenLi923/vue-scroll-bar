@@ -59,14 +59,14 @@ button {
   width: 400px;
 }
 
-.vue-scroll-window[data-v-7bfe0c4b]{
+.vue-scroll-window[data-v-2552638e]{
   overflow: hidden;
   position: relative;
 }
-.vue-scroll-track[data-v-7bfe0c4b]{
+.vue-scroll-track[data-v-2552638e]{
   background: #EFF6FA;
 }
-.left-track[data-v-7bfe0c4b]{
+.left-track[data-v-2552638e]{
   position: absolute;
   z-index:1;
   width:5px;
@@ -74,7 +74,7 @@ button {
   top:0;
   bottom: 0;
 }
-.bottom-track[data-v-7bfe0c4b] {
+.bottom-track[data-v-2552638e] {
   position: absolute;
   z-index:1;
   left: 0;
@@ -82,7 +82,7 @@ button {
   right: 0;
   height: 5px;
 }
-.vue-scroll-bar[data-v-7bfe0c4b]{
+.vue-scroll-bar[data-v-2552638e]{
   padding: 0;
   border: none;
   display: block;
@@ -90,26 +90,26 @@ button {
   outline: none;
   margin: 0;
 }
-.left-bar[data-v-7bfe0c4b]{
+.left-bar[data-v-2552638e]{
   width:100%;
   background: #C0C0C0;
 }
-.bottom-bar[data-v-7bfe0c4b] {
+.bottom-bar[data-v-2552638e] {
   height: 100%;
   background: #C0C0C0;
 }
-.vue-scroll-animation[data-v-7bfe0c4b]{
+.vue-scroll-animation[data-v-2552638e]{
   -webkit-transform:translateZ(0);
           transform:translateZ(0);
   -webkit-transition:margin-top 0.1s ease, margin-left 0.1s ease;
   transition:margin-top 0.1s ease, margin-left 0.1s ease;
 }
-.vue-scroll-leave-active[data-v-7bfe0c4b] {
+.vue-scroll-leave-active[data-v-2552638e] {
   -webkit-transform:translateZ(0);
           transform:translateZ(0);
   -webkit-transition: opacity 1.2s ease;
   transition: opacity 1.2s ease;
 }
-.vue-scroll-leave-to[data-v-7bfe0c4b]{
+.vue-scroll-leave-to[data-v-2552638e]{
   opacity: 0;
 }

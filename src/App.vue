@@ -37,10 +37,10 @@
       </div>
     </scroll-bar>
     <div class="warp-button">
-      <button @click="addItem2">Add item to recalculate for resize test</button>
+      <button @click="addItem2">Add item to recalculate for resize</button>
     </div>
     <div class="warp-button">
-      <button @click="removeItem2">Remove item to recalculate for resize test</button>
+      <button @click="removeItem2">Remove item to recalculate for resize</button>
     </div>
     <scroll-bar class="warp2"
                 :watchValue="items2"

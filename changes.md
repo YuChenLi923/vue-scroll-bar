@@ -22,3 +22,8 @@
 - fix style in demo: horizontal scrollBar is not visible
 - scroll events handler are refactored to base on cross-browser `mouse-wheel` package
 - delete props: scrollDis,scrollDisX,scrollDisY
+
+## 1.2.1
+
+- fix bug: When content items are removed one by one and content is scrolled to end, recalculation of scrollbars is going wrong.
+- add feature:  handling scroll x event - for Apple MagicMouse/MagicTrackpad
