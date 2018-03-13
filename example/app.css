@@ -58,15 +58,21 @@ button {
 .test{
   width: 400px;
 }
+@media (max-width: 768px) {
+.warp, .warp2{
+    width: auto;
+    margin: 20px;
+}
+}
 
-.vue-scroll-window[data-v-2552638e]{
+.vue-scroll-window[data-v-46abfbad]{
   overflow: hidden;
   position: relative;
 }
-.vue-scroll-track[data-v-2552638e]{
+.vue-scroll-track[data-v-46abfbad]{
   background: #EFF6FA;
 }
-.left-track[data-v-2552638e]{
+.left-track[data-v-46abfbad]{
   position: absolute;
   z-index:1;
   width:5px;
@@ -74,7 +80,7 @@ button {
   top:0;
   bottom: 0;
 }
-.bottom-track[data-v-2552638e] {
+.bottom-track[data-v-46abfbad] {
   position: absolute;
   z-index:1;
   left: 0;
@@ -82,7 +88,7 @@ button {
   right: 0;
   height: 5px;
 }
-.vue-scroll-bar[data-v-2552638e]{
+.vue-scroll-bar[data-v-46abfbad]{
   padding: 0;
   border: none;
   display: block;
@@ -90,26 +96,26 @@ button {
   outline: none;
   margin: 0;
 }
-.left-bar[data-v-2552638e]{
+.left-bar[data-v-46abfbad]{
   width:100%;
   background: #C0C0C0;
 }
-.bottom-bar[data-v-2552638e] {
+.bottom-bar[data-v-46abfbad] {
   height: 100%;
   background: #C0C0C0;
 }
-.vue-scroll-animation[data-v-2552638e]{
+.vue-scroll-animation[data-v-46abfbad]{
   -webkit-transform:translateZ(0);
           transform:translateZ(0);
   -webkit-transition:margin-top 0.1s ease, margin-left 0.1s ease;
   transition:margin-top 0.1s ease, margin-left 0.1s ease;
 }
-.vue-scroll-leave-active[data-v-2552638e] {
+.vue-scroll-leave-active[data-v-46abfbad] {
   -webkit-transform:translateZ(0);
           transform:translateZ(0);
   -webkit-transition: opacity 1.2s ease;
   transition: opacity 1.2s ease;
 }
-.vue-scroll-leave-to[data-v-2552638e]{
+.vue-scroll-leave-to[data-v-46abfbad]{
   opacity: 0;
 }

@@ -24,17 +24,14 @@ npm i vue-scroll-bar --save
 <template>
    <scroll-bar class="warp" :scrollTrackStyle="scrollTrackStyle" :scrollBarStyle="scrollBarStyle">
       <div class="test">
-         <p>select1</p>
-         <p>select2</p>
-         <p>select3</p>
-         <p>select4</p>
-         <p>select5</p>
-         <p>select6</p>
+        <p v-for="index in 6">
+           item no {{index}}
+        </p>
       </div>
    </scroll-bar>
 </template>
 
-import scrollBar from 'vue-date-picker';
+import scrollBar from 'vue-scroll-bar';
 export default {
     components: { scrollBar },
     data() {

@@ -3,7 +3,7 @@
     <scroll-bar class="warp" overflow="hidden-x">
       <div class="test">
         <p v-for="index in 6">
-          item no {{index}}
+          <a>item no {{index}}</a>
         </p>
       </div>
     </scroll-bar>
@@ -146,5 +146,11 @@ button {
 }
 .test{
   width: 400px;
+}
+@media (max-width: 768px) {
+  .warp, .warp2{
+    width: auto;
+    margin: 20px;
+  }
 }
 </style>

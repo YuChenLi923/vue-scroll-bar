@@ -1,14 +1,15 @@
 <template>
-  <div ref="scrollWindow" class="vue-scroll-window"
+  <div ref="scrollWindow"
+       class="vue-scroll-window"
        @touchstart.stop = "startMove"
   >
-    <resize-observer @notify="handleResize" />
     <div class="vue-scroll-body"
          :class="{'vue-scroll-animation': animation}"
          ref="scrollContent"
          :style="{marginTop: scrollTop + 'px',  marginLeft: scrollLeft + 'px'}">
       <slot/>
     </div>
+    <resize-observer @notify="handleResize" />
     <transition name="vue-scroll">
     <div  class="vue-scroll-track left-track"
           @click.stop="(e) => {clickTo(e, 'y');}"
@@ -295,6 +296,15 @@
         this.scrollLeft = -1 * this.scrollW * (this.left / this.trackScrollW) || 0;
         this.scrollTop = -1 * this.scrollH * (this.top / this.trackScrollH) || 0;
       },
+      isTargetScrollWindow (target) {
+        while (target !== null) {
+          if (target.offsetParent === this.$refs.scrollWindow) {
+            return true;
+          } else {
+            target = target.offsetParent;
+          }
+        }
+      },
       bindEvents () {
         let { scrollWindow } = this.$refs;
         !isPhone && window.addEventListener('mouseup', () => {
@@ -346,7 +356,7 @@
             this.moveToX(e.clientX - this.startX, e.clientX);
           }
         });
-        window.addEventListener('touchmove', (e) => {
+        isPhone && window.addEventListener('touchmove', (e) => {
           if (this.moveY) {
             let clientY = e.touches ? e.touches[0].clientY : e.clientY;
             this.showScrollY = true;
@@ -357,7 +367,9 @@
             this.showScrollX = true;
             this.moveToX((this.startX - clientX) / dpr, clientX);
           }
-          e.preventDefault();
+          if (this.isTargetScrollWindow(e.target) && (this.scrollH > 0 || this.scrollW > 0)) {
+            e.preventDefault();
+          }
         }, { passive: false });
         mouseWheel(scrollWindow, this.scroll);
       },

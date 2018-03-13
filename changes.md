@@ -27,3 +27,8 @@
 
 - fix bug: When content items are removed one by one and content is scrolled to end, recalculation of scrollbars is going wrong.
 - add feature:  handling scroll x event - for Apple MagicMouse/MagicTrackpad
+
+## 1.2.2
+
+- fix bug:When the container don't have scrollBar,it will prevent `touchmove`'s default action.
+- modify demo style
