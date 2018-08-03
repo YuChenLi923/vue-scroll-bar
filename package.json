@@ -17,8 +17,9 @@
     "url": "https://github.com/YuChenLi923/vue-scroll-bar.git"
   },
   "dependencies": {
+    "mouse-wheel": "^1.2.0",
     "vue": "^2.5.2",
-    "mouse-wheel": "^1.2.0"
+    "vue-resize": "^0.4.4"
   },
   "keywords": [
     "vue-scroll-bar",
