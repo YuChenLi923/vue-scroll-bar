@@ -49,7 +49,6 @@
   import { ResizeObserver } from 'vue-resize'
   import getElementCoordinate from './uitls/getElementCoordinate';
   import mouseWheel from 'mouse-wheel';
-  const isPhone = /android|iphone/gi.test(window.navigator.appVersion);
   const dpr = Math.floor(window.devicePixelRatio + 1 || 1);
   const fastTime = 0.4;
   export default {
@@ -84,6 +83,9 @@
       },
       watchValue: {
         default: null
+      },
+      mobile: {
+        default: null
       }
     },
     data () {
@@ -111,7 +113,7 @@
         moveY: false,
         bottomMove: false,
         animation: false,
-        isPhone: isPhone
+        isPhone: this.mobile !== null ? this.mobile : /android|iphone/gi.test(window.navigator.appVersion)
       }
     },
     watch: {
@@ -285,8 +287,8 @@
         this.contentH = contentH;
         this.scrollWinH = scrollWinH;
         this.scrollWinW = scrollWinW;
-        this.showScrollY = !isPhone && scrollH > 0 && (overflow !== 'hidden-y' && overflow !== 'hidden');
-        this.showScrollX = !isPhone && scrollW > 0 && (overflow !== 'hidden-x' && overflow !== 'hidden');
+        this.showScrollY = !this.isPhone && scrollH > 0 && (overflow !== 'hidden-y' && overflow !== 'hidden');
+        this.showScrollX = !this.isPhone && scrollW > 0 && (overflow !== 'hidden-x' && overflow !== 'hidden');
         this.width = scrollWinW / ((scrollW / scrollWinW) + 1) < minWidth ? minWidth : scrollWinW / ((scrollW / scrollWinW) + 1);
         this.height = scrollWinH / ((scrollH / scrollWinH) + 1) < minHeight ? minHeight : scrollWinH / ((scrollH / scrollWinH) + 1);
         this.trackScrollH = this.scrollWinH - this.height - (this.showScrollX ? 5 : 0);
@@ -307,7 +309,7 @@
       },
       bindEvents () {
         let { scrollWindow } = this.$refs;
-        !isPhone && window.addEventListener('mouseup', () => {
+        !this.isPhone && window.addEventListener('mouseup', () => {
           // prevent triggering events on other scroll components
           if (this.moveX || this.moveY) {
             this.moveY = false;
@@ -341,13 +343,13 @@
                 this.moveLeft(-speedX);
               }
             }
-            if (isPhone) {
+            if (this.isPhone) {
               this.showScrollY = false;
               this.showScrollX = false;
             }
           }
         })
-        !isPhone && window.addEventListener('mousemove', (e) => {
+        !this.isPhone && window.addEventListener('mousemove', (e) => {
           if (this.moveY) {
             let dis = e.clientY - this.startY;
             this.moveToY(dis, e.clientY);
@@ -356,7 +358,7 @@
             this.moveToX(e.clientX - this.startX, e.clientX);
           }
         });
-        isPhone && window.addEventListener('touchmove', (e) => {
+        this.isPhone && window.addEventListener('touchmove', (e) => {
           if (this.moveY) {
             let clientY = e.touches ? e.touches[0].clientY : e.clientY;
             this.showScrollY = true;

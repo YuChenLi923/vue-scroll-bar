@@ -67,3 +67,4 @@ export default {
 | barXMinWidth | Number | 20 |  the min width of scroll bar in the direction of X axis
 | overflow | String | 'auto'| 'auto', 'hidden', 'hidden-x', 'hidden-y'
 | watchValue | Any | `null` |  when content expands, bar would be refreshed
+| mobile | Boolean | false | scrollbar will be forced to show in mobile mode when it is set to true

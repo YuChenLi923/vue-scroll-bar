@@ -32,3 +32,7 @@
 
 - fix bug:When the container don't have scrollBar,it will prevent `touchmove`'s default action.
 - modify demo style
+
+
+## 1.2.3
+- add a prop: mobile, scrollbar will be forced to show in mobile mode when it is set to true.

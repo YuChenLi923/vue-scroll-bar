@@ -65,14 +65,14 @@ button {
 }
 }
 
-.vue-scroll-window[data-v-46abfbad]{
+.vue-scroll-window[data-v-70533d7c]{
   overflow: hidden;
   position: relative;
 }
-.vue-scroll-track[data-v-46abfbad]{
+.vue-scroll-track[data-v-70533d7c]{
   background: #EFF6FA;
 }
-.left-track[data-v-46abfbad]{
+.left-track[data-v-70533d7c]{
   position: absolute;
   z-index:1;
   width:5px;
@@ -80,7 +80,7 @@ button {
   top:0;
   bottom: 0;
 }
-.bottom-track[data-v-46abfbad] {
+.bottom-track[data-v-70533d7c] {
   position: absolute;
   z-index:1;
   left: 0;
@@ -88,7 +88,7 @@ button {
   right: 0;
   height: 5px;
 }
-.vue-scroll-bar[data-v-46abfbad]{
+.vue-scroll-bar[data-v-70533d7c]{
   padding: 0;
   border: none;
   display: block;
@@ -96,26 +96,26 @@ button {
   outline: none;
   margin: 0;
 }
-.left-bar[data-v-46abfbad]{
+.left-bar[data-v-70533d7c]{
   width:100%;
   background: #C0C0C0;
 }
-.bottom-bar[data-v-46abfbad] {
+.bottom-bar[data-v-70533d7c] {
   height: 100%;
   background: #C0C0C0;
 }
-.vue-scroll-animation[data-v-46abfbad]{
+.vue-scroll-animation[data-v-70533d7c]{
   -webkit-transform:translateZ(0);
           transform:translateZ(0);
   -webkit-transition:margin-top 0.1s ease, margin-left 0.1s ease;
   transition:margin-top 0.1s ease, margin-left 0.1s ease;
 }
-.vue-scroll-leave-active[data-v-46abfbad] {
+.vue-scroll-leave-active[data-v-70533d7c] {
   -webkit-transform:translateZ(0);
           transform:translateZ(0);
   -webkit-transition: opacity 1.2s ease;
   transition: opacity 1.2s ease;
 }
-.vue-scroll-leave-to[data-v-46abfbad]{
+.vue-scroll-leave-to[data-v-70533d7c]{
   opacity: 0;
 }
