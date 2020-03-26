@@ -1,20 +1,28 @@
 module.exports = {
   root: true,
-  parser: 'babel-eslint',
-  parserOptions: {
-    sourceType: 'module'
-  },
   env: {
-    browser: true,
+    node: true
   },
-  extends: 'standard',
-  plugins: [
-    'html'
+  extends: [
+    'plugin:vue/essential',
+    '@vue/standard'
   ],
+  parserOptions: {
+    parser: 'babel-eslint'
+  },
   rules: {
-    'semi': 0,
-    'generator-star-spacing': 'off',
-    'accessor-pairs': 0,
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
-  }
+  },
+  overrides: [
+    {
+      files: [
+        '**/__tests__/*.{j,t}s?(x)',
+        '**/tests/unit/**/*.spec.{j,t}s?(x)'
+      ],
+      env: {
+        mocha: true
+      }
+    }
+  ]
 }

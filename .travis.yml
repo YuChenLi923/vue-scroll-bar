@@ -4,5 +4,4 @@ install:
 node_js:
   - "8.9.0"
 script:
-  - npm run lint
   - npm run build

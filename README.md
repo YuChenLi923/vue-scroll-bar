@@ -10,7 +10,7 @@
 
 ![show-x](show-x.gif)
 
-[DEMO](https://yuchenli923.github.io/vue-scroll-bar/example/demo.html)
+[DEMO](https://yuchenli923.github.io/vue-scroll-bar/example/index.html)
 ## Install
 
 ```

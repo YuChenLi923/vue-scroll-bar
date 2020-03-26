@@ -2,21 +2,21 @@
   <div id="app">
     <scroll-bar class="warp" overflow="hidden-x">
       <div class="test">
-        <p v-for="index in 6">
+        <p v-for="index in 6" :key="`test-one-${index}`">
           <a>item no {{index}}</a>
         </p>
       </div>
     </scroll-bar>
     <scroll-bar class="warp" overflow="hidden-y">
       <div class="test">
-        <p v-for="index in 6">
+        <p v-for="index in 6" :key="`test-two-${index}`">
           item no {{index}}
         </p>
       </div>
     </scroll-bar>
     <scroll-bar class="warp" overflow="auto">
       <div class="test">
-        <p v-for="index in 6">
+        <p v-for="index in 6" :key="`test-three-${index}`">
           item no {{index}}
         </p>
       </div>
@@ -31,8 +31,8 @@
                 overflow="hidden-x"
                 :watchValue="items">
       <div class="test">
-        <p v-for="(item, $index) in items">
-          item no {{$index}}
+        <p v-for="(item, index) in items" :key="`test-four-${index}`">
+          item no {{index}}
         </p>
       </div>
     </scroll-bar>
@@ -48,8 +48,8 @@
                 overflow="hidden-y"
     >
       <div class="test2">
-        <p v-for="(item, $index) in items2">
-          item no {{$index}}  to recalculate for resize
+        <p v-for="(item, index) in items2" :key="`test-five-${index}`">
+          item no {{index}}  to recalculate for resize
         </p>
       </div>
     </scroll-bar>
@@ -71,16 +71,16 @@ export default {
   },
   methods: {
     addItem () {
-      this.items.push(new Date());
+      this.items.push(new Date())
     },
     removeItem () {
-      this.items.pop();
+      this.items.pop()
     },
     addItem2 () {
-      this.items2.push(new Date());
+      this.items2.push(new Date())
     },
     removeItem2 () {
-      this.items2.pop();
+      this.items2.pop()
     }
   }
 }
